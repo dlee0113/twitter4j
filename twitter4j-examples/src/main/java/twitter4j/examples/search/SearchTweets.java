@@ -46,15 +46,18 @@ public class SearchTweets {
             Query query = new Query(args[0]);
             query.setCount(10);
             QueryResult result;
-            do {
-                result = twitter.search(query);
-                List<Status> tweets = result.getTweets();
-                for (Status tweet : tweets) {
-                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + 
-                    					tweet.getText() + " - " + 
-                    					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tweet.getCreatedAt().getDate()));
-                }
-            } while ((query = result.nextQuery()) != null);
+            
+            result = twitter.search(query);
+            List<Status> tweets = result.getTweets();
+            
+            System.out.println("tweets.size(): " + tweets.size());
+            
+            for (Status tweet : tweets) {
+                System.out.println("@" + tweet.getUser().getScreenName() + " - " + 
+                					tweet.getText() + " - " + 
+                					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tweet.getCreatedAt().getDate()));
+            }
+            
             System.exit(0);
         } catch (TwitterException te) {
             te.printStackTrace();
