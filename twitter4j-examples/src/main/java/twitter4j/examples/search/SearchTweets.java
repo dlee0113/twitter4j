@@ -16,9 +16,15 @@
 
 package twitter4j.examples.search;
 
-import twitter4j.*;
-
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
 /**
  * @author Yusuke Yamamoto - yusuke at mac.com
@@ -38,12 +44,15 @@ public class SearchTweets {
         Twitter twitter = new TwitterFactory().getInstance();
         try {
             Query query = new Query(args[0]);
+            query.setCount(10);
             QueryResult result;
             do {
                 result = twitter.search(query);
                 List<Status> tweets = result.getTweets();
                 for (Status tweet : tweets) {
-                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
+                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + 
+                    					tweet.getText() + " - " + 
+                    					new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(tweet.getCreatedAt().getDate()));
                 }
             } while ((query = result.nextQuery()) != null);
             System.exit(0);
